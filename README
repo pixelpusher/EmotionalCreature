@@ -9,4 +9,8 @@ Using pervasive technologies such as RFID, Twitter, Arduino, digital sound, and 
 
 All code and project notes are open source and available on the project blog at http://lifeproject.spacestudios.org.uk
 
+You will need the following Arduino libraries to make it work:
 
+NewSoftSerial: http://arduiniana.org/libraries/newsoftserial/ 
+Ports: http://jeelabs.net/projects/11/wiki/Ports
+RF12: http://jeelabs.net/projects/cafe/wiki/RF12
