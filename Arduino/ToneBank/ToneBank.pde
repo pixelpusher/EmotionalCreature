@@ -24,10 +24,18 @@
  *   things simultanouely and delay() would prevent it from doing them. 
  ********************
  */
+// Test for the Dimmer plug
+
+#include <Ports.h>
+#include <RF12.h> // needed to avoid a linker error :(
+
+PortI2C myBus (2);
+DimmerPlug dimmer (myBus, 0x41);
+
 
 
 // the pin on which the speaker is attached - 
-int soundpin=4;
+int soundpin=3;
 
 // the length of each sound sequence
 int timeOut = 4500;
@@ -44,7 +52,7 @@ void (*soundFunc)(int);
 // defined below and each on takes in an "int" variable which represents the current time 
 // difference in ms
 void (*soundFuncs[])(int) = { 
-  &happy, &sad, &angry, &bored, &disgusted, &antisocial
+  &happy, &sad, &angry, &bored, &disgusted, &antisocial, &disappointed, &horny, &dying, &dead
 };
 
 // index in the soundFuncs array (e.g. the current sound function)  
@@ -52,7 +60,7 @@ unsigned char index = 0;
 
 // this is the number of emotions in the array that we want to play -
 // in this case, only the 1st 2
-unsigned char numEmotions = 2; 
+unsigned char numEmotions = 10; 
 
 
 // 
@@ -63,6 +71,11 @@ void setup()
   // set the current sound function
   soundFunc = &happy;
   //Serial.begin(9600);
+  
+    dimmer.begin();
+  
+// set up for totem pole - make it white, must be attached to power
+  dimmer.setReg(dimmer.MODE2, 0x14);
 }
 
 
@@ -139,6 +152,15 @@ void happy(int tdiff)
   float t = float(tdiff)/duration;
   float freq = 200.0f+1800.0f*t;
   tone(soundpin, freq);
+  
+  byte y = 255-byte(t*255);
+  
+  dimmer.setMulti(dimmer.PWM0, 
+  y/*R*/, y/*G*/, 255/*B*/, 
+  255-y/*R*/, 255-y/*G*/, 255/*B*/, 
+  0, 0,
+  0, 0, 0, 0,
+  0, 0, 0, 0, -1); 
 }
 
 //
@@ -147,7 +169,7 @@ void happy(int tdiff)
 
 void sad(int tdiff)
 {
-  const int duration = 1000;
+  const int duration = 2500;
 
   tdiff  = tdiff % duration;
 
@@ -155,6 +177,15 @@ void sad(int tdiff)
   float steps = 18.0f*float(tdiff)/duration;
   freq +=  sin(steps)+2*steps;
   tone(soundpin, freq);
+
+  byte y = byte(map(freq, 200.0f, 236.0f, 255, 100));
+  
+  dimmer.setMulti(dimmer.PWM0, 
+  y/*R*/, 255/*G*/, y/*B*/, 
+  255-y/*R*/, 255/*G*/, 255-y/*B*/, 
+  0, 0,
+  0, 0, 0, 0,
+  0, 0, 0, 0, -1); 
 
   /* old:
    float freq = random(200, 300);

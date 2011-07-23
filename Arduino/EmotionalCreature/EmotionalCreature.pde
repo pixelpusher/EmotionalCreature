@@ -54,14 +54,9 @@ void setup()
   Serial.println(myChar);
   Serial.println("DONE");
   
-  
-  
-  
   emstate = updateExternalEmotionalState(HAPPY, HAPPY );
   Serial.print("New state:");
   Serial.println(emstate);
- 
-  
 }
 
 void loop()
