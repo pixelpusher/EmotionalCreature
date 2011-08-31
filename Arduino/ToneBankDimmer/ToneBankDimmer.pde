@@ -35,7 +35,7 @@ DimmerPlug dimmer (myBus, 0x41);
 
 
 // the pin on which the speaker is attached - 
-int soundpin=3;
+const int soundPin=3;
 
 // the length of each sound sequence
 int timeOut = 4500;
@@ -45,22 +45,22 @@ long startTime = 0;
 
 // this is a pointer the current sound generating function - 
 // when this points to an actual function, it will run (see below)
-void (*soundFunc)(int);
+void (*expressionFunc)(DimmerPlug&, int, int);
 
 
 // this is an array of all the possible sound generating functions - they are individually
 // defined below and each on takes in an "int" variable which represents the current time 
 // difference in ms
-void (*soundFuncs[])(int) = { 
-  &happy, &sad, &angry, &bored, &disgusted, &antisocial, &disappointed, &horny, &dying
+void (*expressionFuncs[])(DimmerPlug&, int, int) = { 
+  &happy, &sad, &angry//, &bored, &disgusted, &antisocial, &disappointed, &horny, &dying
 };
 
-// index in the soundFuncs array (e.g. the current sound function)  
+// index in the expressionFuncs array (e.g. the current sound function)  
 unsigned char index = 0;
 
 // this is the number of emotions in the array that we want to play -
 // in this case, only the 1st 2
-unsigned char numEmotions = 9; 
+unsigned char numEmotions = 3; 
 
 
 // 
@@ -69,7 +69,7 @@ unsigned char numEmotions = 9;
 void setup()
 {
   // set the current sound function
-  soundFunc = &happy;
+  expressionFunc = &happy;
   //Serial.begin(9600);
   
     dimmer.begin();
@@ -92,7 +92,7 @@ void loop()
     timeDiff = 0;
 
     // turn off sound
-    noTone(soundpin);
+    noTone(soundPin);
     // wait a bit - this is optional
     delay(1500);
 
@@ -105,12 +105,12 @@ void loop()
     index = (index + 1) % numEmotions;
 
     //    Serial.println(int(index));
-    soundFunc = soundFuncs[index];
+    expressionFunc = expressionFuncs[index];
   }
 
   // now we actually run the current sound routine
   // by calling the function this points to
-  (*soundFunc)(timeDiff);
+  (*expressionFunc)(dimmer, soundPin, timeDiff);
 
 }
 
@@ -121,10 +121,10 @@ void soundRampUp(float lower, float upper, float steps)
 {
   for(float freq = lower; freq < upper; freq += steps)
   {
-    tone(soundpin, freq);
+    tone(soundPin, freq);
     delay(1); 
   }
-  noTone(soundpin);
+  noTone(soundPin);
 }
 
 
@@ -135,23 +135,23 @@ void soundRampDown(float upper, float lower, float steps)
 {
   for(float freq = upper; freq > lower; freq -= steps)
   {
-    tone(soundpin, freq);
+    tone(soundPin, freq);
     delay(1); 
   }
-  noTone(soundpin);
+  noTone(soundPin);
 }
 
 //
 // HAPPY sound - argument is time elapsed in ms (from 0 to timeOut)
 //
-void happy(int tdiff)
+void happy(DimmerPlug& dimmer, int soundPin,  int tdiff)
 {
   const int duration = 1000;
 
   tdiff  = tdiff % duration;
   float t = float(tdiff)/duration;
   float freq = 200.0f+1800.0f*t;
-  tone(soundpin, freq);
+  tone(soundPin, freq);
   
   byte y = 255-byte(t*255);
   
@@ -167,7 +167,7 @@ void happy(int tdiff)
 // SAD sound - argument is time elapsed in ms (from 0 to timeOut)
 //
 
-void sad(int tdiff)
+void sad(DimmerPlug& dimmer, int soundPin, int tdiff)
 {
   const int duration = 2500;
 
@@ -176,7 +176,7 @@ void sad(int tdiff)
   float freq = 200.0f;
   float steps = 18.0f*float(tdiff)/duration;
   freq +=  sin(steps)+2*steps;
-  tone(soundpin, freq);
+  tone(soundPin, freq);
 
   byte y = byte(map(freq, 200.0f, 236.0f, 255, 100));
   
@@ -192,40 +192,71 @@ void sad(int tdiff)
    
    for(float steps=0; steps<18; steps+=0.01)
    {
-   tone(soundpin, freq + sin(steps) * 10 - steps*2);
+   tone(soundPin, freq + sin(steps) * 10 - steps*2);
    delay(1);
    }
-   noTone(soundpin);
+   noTone(soundPin);
    */
 }
 
-void angry(int tdiff)
+void angry(DimmerPlug& dimmer, int soundPin, int tdiff)
 {
-  int lower = random(200, 300);
-  int upper = random(3000, 4000);
+  float freqLower = random(200, 300);
+  float freqUpper = random(3000, 4000);
+  int freq = 0;
+  
+  const int duration = 1500;
+  const int halfDuration = 750;
 
+  int newDiff =  tdiff % duration;
+  tdiff = tdiff % halfDuration;
+  
+  float steps = 5.0f*float(tdiff)/halfDuration;
+  
+  if (newDiff > halfDuration)
+  {
+    freq =  freqLower + steps;
+  }
+  else
+  {
+   
+    freq =  freqUpper - steps;
+    tone(soundPin, freq);
+  }  
+  tone(soundPin, freq);
+  byte y = byte(map(freq, freqLower, freqUpper, 0, 200));
+  
+  dimmer.setMulti(dimmer.PWM0, 
+  y/*R*/, 255/*G*/, 255/*B*/, 
+  200-y/*R*/, 255/*G*/, 255/*B*/, 
+  0, 0,
+  0, 0, 0, 0,
+  0, 0, 0, 0, -1); 
+
+/* old:
   for(float steps=0; steps<5; steps+=1)
   {
     soundRampUp(lower, upper, 10);
     soundRampDown(upper, lower, 10);
   }
-  noTone(soundpin);
+  noTone(soundPin);
+  */
 }
 
-void bored(int tdiff)
+void bored(DimmerPlug& dimmer, int soundPin, int tdiff)
 {
   float freq = random(200, 300);
 
   for(float steps=0; steps<18; steps+=0.01)
   {
-    tone(soundpin, freq);
+    tone(soundPin, freq);
     delay(1);
   }
-  noTone(soundpin);
+  noTone(soundPin);
 
 }
 
-void disgusted(int tdiff)
+void disgusted(DimmerPlug& dimmer, int soundPin, int tdiff)
 {
   int lower = random(200, 300);
   int upper = random(3000, 4000);
@@ -236,7 +267,7 @@ void disgusted(int tdiff)
   soundRampDown(upper, lower, 20);
 }
 
-void horny(int tdiff)
+void horny(DimmerPlug& dimmer, int soundPin, int tdiff)
 {
   soundRampUp(random(200, 400), random(3000, 3500), 20);
 
@@ -249,24 +280,24 @@ void horny(int tdiff)
   soundRampDown(upper, lower, 20);
 }
 
-void disappointed(int tdiff)
+void disappointed(DimmerPlug& dimmer, int soundPin, int tdiff)
 {
   soundRampDown(random(400, 440), 50, 0.3);
 }
 
-void antisocial(int tdiff)
+void antisocial(DimmerPlug& dimmer, int soundPin, int tdiff)
 {
   float freq = random(300, 400);
 
   for(float steps=0; steps<32; steps+=0.05)
   {
-    tone(soundpin, freq + sin(steps) * 25);
+    tone(soundPin, freq + sin(steps) * 25);
     delay(1);
   }
-  noTone(soundpin);
+  noTone(soundPin);
 }
 
-void dying(int tdiff)
+void dying(DimmerPlug& dimmer, int soundPin, int tdiff)
 {
   int lower = random(200, 400);
   int upper = random(3000, 3500);

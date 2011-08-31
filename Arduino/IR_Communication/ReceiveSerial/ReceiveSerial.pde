@@ -19,7 +19,6 @@ void loop()                     // run over and over again
  
   if (mySerial.available())
   {
-    tone(
     Serial.print((char)mySerial.read());
   }
 }
