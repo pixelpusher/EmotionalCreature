@@ -21,7 +21,30 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***********************************
+ 
+ 
+ * HACKING INSTRUCTIONS:
+ * The way you edit this beast is to look at the Emotions map so you can see which states (happy, sad, etc) can affect other states (happy, sad, etc).
+ *
+ * For example:
+ *
+ * ExternalStateMap3D[HAPPY][SAD][ANGRY] = 5;
+ *
+ * means that if the creature is HAPPY and looks at a SAD creature (e.g. receives a SAD broadcast via infrared) than the odds that it becomes angry are 5/10.
+ *
+ * If the creature CANNOT go from one state to another, the odds are 0:
+ *
+ * ExternalStateMap3D[HAPPY][SAD][HAPPY] = 0;
+ *
+ * This means that a HAPPY creature receiving a SAD can't stay HAPPY.
+ *
+ * All odds are out of 10 - so all odds for a state MUST add up to 10 and not more or less!
+ *
+ * So all the 11 entries for:
+ * ExternalStateMap3D[HAPPY][SAD][*]
+ * must add to 10.  Or else everything goes haywire.  (TODO - add a check for that in the code to warn us...)
  */
+ 
 
 final int HAPPY=0;
 final int SAD = 1;
