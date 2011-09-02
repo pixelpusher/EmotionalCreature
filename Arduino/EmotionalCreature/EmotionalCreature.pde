@@ -23,7 +23,27 @@
  *  You should have received a copy of the GNU Affero General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***********************************
+ 
+  
+ /                 JeeNode / JeeNode USB / JeeSMD 
+ -------|-----------------------|----|-----------------------|----       
+ |       |D3  A1 [Port2]  D5     |    |D3  A0 [port1]  D4     |    |
+ |-------|IRQ AIO +3V GND DIO PWR|    |IRQ AIO +3V GND DIO PWR|    |
+ | D1|TXD|                                           ---- ----     |
+ | A5|SCL|                                       D12|MISO|+3v |    |
+ | A4|SDA|   Atmel Atmega 328                    D13|SCK |MOSI|D11 |
+ |   |PWR|   JeeNode / JeeNode USB / JeeSMD         |RST |GND |    |
+ |   |GND|                                       D8 |BO  |B1  |D9  |
+ | D0|RXD|                                           ---- ----     |
+ |-------|PWR DIO GND +3V AIO IRQ|    |PWR DIO GND +3V AIO IRQ|    |
+ |       |    D6 [Port3]  A2  D3 |    |    D7 [Port4]  A3  D3 |    |
+ -------|-----------------------|----|-----------------------|----
+ /
+ 
+ 
  */
+ 
+ 
 
 #include <Ports.h>
 #include <RF12.h> // needed to avoid a linker error :(
@@ -32,8 +52,9 @@
 #include "InternalEmotions.h"
 #include <avr/pgmspace.h>
 #include <NewSoftSerial.h>
+#include "HSVColor.h";
 
-// IRQ on Port 1 on the JeeNode is send (inverted)
+// IRQ on Port A0 on the JeeNode is send (inverted)
 NewSoftSerial irSerialSender(-1, A0, true); // this device uses inverted signaling
 
 // DIO on Port 1 on the JeeNode is receive
@@ -51,6 +72,8 @@ const char CREATURE_ID = '2';
 // times we've sent this emotion...
 char seqNum = '0';
 
+HSVColori leftColori, rightColori;
+int rgbL[3], rgbR[3];
 
 //
 // SOUND STUFF
@@ -89,14 +112,13 @@ void setup()
 
   // set up for totem pole - make it white, must be attached to power
   dimmer.setReg(dimmer.MODE2, 0x14);
-
-  dimmer.setMulti(dimmer.PWM0, 
-  255/*R*/, 255/*G*/, 255/*B*/, 
-  255/*R*/, 255/*G*/, 255/*B*/, 
-  255, 255,
-  255, 255, 255, 255,
-  255, 255, 255, 255, -1); 
-
+  
+  for (int i=0; i<3; i++)
+  {
+    // off by default
+    rgbR[i] = rgbL[i] = 255;
+  }
+  
   Serial.print("TESTING...");
   Serial.print("Internal Happy/Happy: ");
   Serial.println(InternalStateMap[HAPPY][HAPPY]);
@@ -115,10 +137,43 @@ void setup()
   unsigned char myChar =  pgm_read_byte_near(ExternalStateMap + index);
   Serial.println(int(myChar));
 
+
+  Serial.println("TESTING COLORS");
+  leftColori.set(255,255,255); // full red
+ 
+  rightColori.set(0,0,0); // black
+  
+  HSVColori tmpColor;
+  
+  HSVColori::lerp(leftColori, rightColori, tmpColor, 127);
+  Serial.print("test: static lerp from red to black halfway:");
+  Serial.print(tmpColor.h);
+  Serial.print(",");
+  Serial.print(tmpColor.s);
+  Serial.print(",");
+  Serial.println(tmpColor.v);
+
+
+  leftColori.lerp(rightColori, tmpColor, 127);
+  Serial.print("test: self lerp from red to black halfway:");
+  Serial.print(leftColori.h);
+  Serial.print(",");
+  Serial.print(leftColori.s);
+  Serial.print(",");
+  Serial.println(leftColori.v);
+
+ 
   Serial.println("DONE TESTING");
   
   // set the current sound function
   expressionFunc = expressionFuncs[myEmoState];
+  
+  // update output color arrays
+  updateRGBArrays();
+  
+  // write LED colors to dimmer plug
+  updateLEDs();
+
   
 }
 
@@ -344,5 +399,27 @@ void antisocial(DimmerPlug& dimmer, int soundPin, int tdiff)
 void dying(DimmerPlug& dimmer, int soundPin, int tdiff)
 {
 
+}
+
+
+
+//
+// Tell the dimmer plug to set the LEDs to the values stored in our color objects
+//
+
+inline void updateLEDs()
+{
+  dimmer.setMulti(dimmer.PWM0, 
+  rgbL[0], rgbL[1], rgbL[2], 
+  rgbR[0], rgbR[1], rgbR[2],
+  255, 255,
+  255, 255, 255, 255,
+  255, 255, 255, 255, -1); 
+}
+
+inline void updateRGBArrays()
+{
+  rightColori.toRGB(rgbR);
+  leftColori.toRGB(rgbL);
 }
 
