@@ -34,7 +34,7 @@
 #include <NewSoftSerial.h>
 
 // IRQ on Port 1 on the JeeNode is send (inverted)
-NewSoftSerial irSerialSender(-1, 3, true); // this device uses inverted signaling
+NewSoftSerial irSerialSender(-1, A0, true); // this device uses inverted signaling
 
 // DIO on Port 1 on the JeeNode is receive
 NewSoftSerial irSerialReceiver(4, -1); // this device uses regular signaling
@@ -74,7 +74,7 @@ void (*expressionFunc)(DimmerPlug&, int, int);
 // defined below and each on takes in an "int" variable which represents the current time 
 // difference in ms
 void (*expressionFuncs[])(DimmerPlug&, int, int) = { 
-  &happy, &sad, &angry//, &bored, &disgusted, &antisocial, &disappointed, &horny, &dying
+  &happy, &sad, &angry, &bored, &disgusted, &antisocial, &disappointed, &horny, &dying
 };
 
 
@@ -315,4 +315,34 @@ void angry(DimmerPlug& dimmer, int soundPin, int tdiff)
   */
 }
 
+
+void bored(DimmerPlug& dimmer, int soundPin, int tdiff)
+{
+
+}
+
+void disgusted(DimmerPlug& dimmer, int soundPin, int tdiff)
+{
+
+}
+
+void horny(DimmerPlug& dimmer, int soundPin, int tdiff)
+{
+
+}
+
+void disappointed(DimmerPlug& dimmer, int soundPin, int tdiff)
+{
+
+}
+
+void antisocial(DimmerPlug& dimmer, int soundPin, int tdiff)
+{
+
+}
+
+void dying(DimmerPlug& dimmer, int soundPin, int tdiff)
+{
+
+}
 
