@@ -34,7 +34,7 @@
 #include <RF12.h> // needed to avoid a linker error :(
 
 PortI2C myBus (2);  // the dimmer is on Port 2
-DimmerPlug dimmer (myBus, 0x41);  // the address depends on the solder jumper on the plug
+DimmerPlug dimmer (myBus, 0x40);  // the address depends on the solder jumper on the plug
 
 
 void setup () {

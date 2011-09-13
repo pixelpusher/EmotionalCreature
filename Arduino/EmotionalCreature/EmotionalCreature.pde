@@ -50,6 +50,7 @@
 #include "EmotionalVars.h"
 #include "ExternalEmotions.h"
 #include "InternalEmotions.h"
+#include "ColourSequencer.h"
 #include <avr/pgmspace.h>
 #include <NewSoftSerial.h>
 #include "HSVColor.h";
@@ -63,12 +64,16 @@ NewSoftSerial irSerialReceiver(4, -1); // this device uses regular signaling
 EmotionState myEmoState = HAPPY;
 
 MilliTimer timer;
+MilliTimer colourSequencerTimer;
 
 // ms between internal updates
 const int INTERNAL_UPDATE_INTERVAL = 2000;
 
+// msec interval for colour sequencing.
+const int COLOUR_SEQ_INTERVAL = 10;
+
 // change this for other creatures - make it unique
-const char CREATURE_ID = '2';
+const char CREATURE_ID = '3';
 // times we've sent this emotion...
 char seqNum = '0';
 
@@ -80,7 +85,9 @@ int rgbL[3], rgbR[3];
 //
 
 PortI2C myBus (2);
-DimmerPlug dimmer (myBus, 0x41);
+DimmerPlug dimmer (myBus, 0x40);
+
+// DimmerPlug should be internalised to ColourSequencer in due course.
 
 // the pin on which the speaker is attached - 
 const int soundPin=6;
@@ -100,6 +107,7 @@ void (*expressionFuncs[])(DimmerPlug&, int, int) = {
   &happy, &sad, &angry, &bored, &disgusted, &antisocial, &disappointed, &horny, &dying
 };
 
+ColourSequencer theColourSequencer(dimmer);
 
 void setup()
 {
@@ -111,7 +119,7 @@ void setup()
   dimmer.begin();
 
   // set up for totem pole - make it white, must be attached to power
-  dimmer.setReg(dimmer.MODE2, 0x14);
+  dimmer.setReg(DimmerPlug::MODE2, 0x14);
   
   for (int i=0; i<3; i++)
   {
@@ -172,8 +180,15 @@ void setup()
   updateRGBArrays();
   
   // write LED colors to dimmer plug
-  updateLEDs();
+  //  updateLEDs();
 
+  dimmer.setMulti(DimmerPlug::PWM0,
+		     255, 0, 255,
+		     255, 255, 0,
+		     255, 255,
+		     255, 255, 255, 255,
+		     255, 255, 255, 255, -1
+		    );
   
 }
 
@@ -257,6 +272,11 @@ void loop()
   // by calling the function this points to
   (*expressionFunc)(dimmer, soundPin, timeDiff);
 
+  // Colour sequencing:
+
+  if (colourSequencerTimer.poll(COLOUR_SEQ_INTERVAL)) {
+    theColourSequencer.tenMSecPoll();
+  }
 
 }
 
@@ -281,13 +301,15 @@ void happy(DimmerPlug& dimmer, int soundPin,  int tdiff)
   tone(soundPin, freq);
   
   byte y = 255-byte(t*255);
-  
+
+#if 0  
   dimmer.setMulti(dimmer.PWM0, 
   y/*R*/, y/*G*/, 255/*B*/, 
   255-y/*R*/, 255-y/*G*/, 255/*B*/, 
   0, 0,
   0, 0, 0, 0,
   0, 0, 0, 0, -1); 
+#endif
 }
 
 //
@@ -307,12 +329,14 @@ void sad(DimmerPlug& dimmer, int soundPin, int tdiff)
 
   byte y = byte(map(freq, 200.0f, 236.0f, 255, 100));
   
+#if 0
   dimmer.setMulti(dimmer.PWM0, 
   y/*R*/, 255/*G*/, y/*B*/, 
   255-y/*R*/, 255/*G*/, 255-y/*B*/, 
   0, 0,
   0, 0, 0, 0,
   0, 0, 0, 0, -1); 
+#endif
 
   /* old:
    float freq = random(200, 300);
@@ -353,12 +377,14 @@ void angry(DimmerPlug& dimmer, int soundPin, int tdiff)
   tone(soundPin, freq);
   byte y = byte(map(freq, freqLower, freqUpper, 0, 200));
   
+#if 0
   dimmer.setMulti(dimmer.PWM0, 
   y/*R*/, 255/*G*/, 255/*B*/, 
   200-y/*R*/, 255/*G*/, 255/*B*/, 
   0, 0,
   0, 0, 0, 0,
   0, 0, 0, 0, -1); 
+#endif
 
 /* old:
   for(float steps=0; steps<5; steps+=1)
