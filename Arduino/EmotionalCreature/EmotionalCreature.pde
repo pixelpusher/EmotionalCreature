@@ -85,7 +85,7 @@ int rgbL[3], rgbR[3];
 //
 
 PortI2C myBus (2);
-DimmerPlug dimmer (myBus, 0x40);
+DimmerPlug dimmer (myBus, 0x41);
 
 // DimmerPlug should be internalised to ColourSequencer in due course.
 
@@ -107,7 +107,8 @@ void (*expressionFuncs[])(DimmerPlug&, int, int) = {
   &happy, &sad, &angry, &bored, &disgusted, &antisocial, &disappointed, &horny, &dying
 };
 
-ColourSequencer theColourSequencer(dimmer);
+ColourSequencer theColourSequencer;
+
 
 void setup()
 {
@@ -120,6 +121,9 @@ void setup()
 
   // set up for totem pole - make it white, must be attached to power
   dimmer.setReg(DimmerPlug::MODE2, 0x14);
+  
+  // Evan: the reference to the dimmer needs to be set AFTER it is initialized, for some reason
+  theColourSequencer.setDimmer(&dimmer);
   
   for (int i=0; i<3; i++)
   {

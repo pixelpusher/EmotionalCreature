@@ -11,11 +11,12 @@
 
 class ColourSequencer {
  public:
-  ColourSequencer(DimmerPlug &dimmer);
+  ColourSequencer();
   void tenMSecPoll(void);
+  void setDimmer(DimmerPlug *dimmer);
 
  private:
-  DimmerPlug &itsDimmer;
+  DimmerPlug *itsDimmer;
   int itsCounter;
   int itsState;
 
@@ -23,5 +24,6 @@ class ColourSequencer {
 	       int r2, int g2, int b2
 	      );
 };
+
 
 #endif
