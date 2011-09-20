@@ -120,7 +120,7 @@ void setup()
   dimmer.begin();
 
   // set up for totem pole - make it white, must be attached to power
-  dimmer.setReg(DimmerPlug::MODE2, 0x14);
+  dimmer.setReg(DimmerPlug::MODE2, 0x05);
   
   // Evan: the reference to the dimmer needs to be set AFTER it is initialized, for some reason
   theColourSequencer.setDimmer(&dimmer);
@@ -186,13 +186,6 @@ void setup()
   // write LED colors to dimmer plug
   //  updateLEDs();
 
-  dimmer.setMulti(DimmerPlug::PWM0,
-		     255, 0, 255,
-		     255, 255, 0,
-		     255, 255,
-		     255, 255, 255, 255,
-		     255, 255, 255, 255, -1
-		    );
   
 }
 
