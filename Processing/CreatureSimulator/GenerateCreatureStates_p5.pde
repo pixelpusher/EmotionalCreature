@@ -80,6 +80,44 @@ int EmotionStateTo3DIndex(int ii, int jj, int kk)
 }
 
 
+
+int updateExternalEmotionalState(int currentState, int receivedState )
+{
+  println("State change from " + currentState + " " + receivedState );
+  println("State change from " + states[currentState] + " " + states[receivedState] );
+  
+  float r = random(10000)/10000.0f;
+  float sum = 0;
+  int index = HAPPY; // start at first state
+
+  // For debugging:
+  println("r=");
+  println(r);
+
+  while (sum < r && index < EMOTIONS_END)
+  {
+    // read back a char
+    float stateProb = ExternalStateMap3D[currentState][receivedState][index];
+    
+    float _emval = stateProb/10.0f;
+    
+    // For debugging:
+    print("i,emval=");
+    print(index);
+    print(",");
+    println(_emval);
+    index++;
+
+    // skip 0 states
+    if (_emval == 0) continue;
+    sum += _emval;
+
+  }
+
+  return index;
+}
+
+
 void setupStates()
 {
   stateColors[HAPPY] = #FFFF00;

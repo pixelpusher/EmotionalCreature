@@ -28,7 +28,7 @@
  */
  
 
-float InternalStateMap[11][11] = {
+float InternalStateMap[][] = {
   /*HAPPY*/
  { 0.5/*HAPPY*/, 0.0/*SAD*/,
   0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
@@ -49,33 +49,41 @@ float InternalStateMap[11][11] = {
   0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
   0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
+  /*DISGUST*/
  { 0.5/*HAPPY*/, 0.0/*SAD*/,
   0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
   0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
+ /*SURPRISE*/
  { 0.5/*HAPPY*/, 0.0/*SAD*/,
   0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
   0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
+  /*HUNGRY*/
  { 0.5/*HAPPY*/, 0.0/*SAD*/,
   0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
   0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
+ /*HORNY*/
  { 0.5/*HAPPY*/, 0.0/*SAD*/,
   0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  0.0/*HUNGRY*/, 0.0/*HORNY*/, 
+  0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+ /*ANTISOC*/
+ { 0.0/*HAPPY*/, 0.0/*SAD*/,
+  0.1/*ANGRY*/, 0.2/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+  0.0/*HUNGRY*/, 0.2/*HORNY*/, 0.4/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+ /*DYING*/
+ { 0.0/*HAPPY*/, 0.0/*SAD*/,
+  0.0/*ANGRY*/, 0.0/*BORED*/, 0.0/*DISGUST*/, 0.0/*SURPRISE*/,
+  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.3/*ANTISOC*/, 0.5/*DYING*/, 0.2/*DEAD*/ },  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ }  
+ /*DEAD*/
+ { 0.0/*HAPPY*/, 0.0/*SAD*/,
+  0.0/*ANGRY*/, 0.0/*BORED*/, 0.0/*DISGUST*/, 0.0/*SURPRISE*/,
+  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.0/*ANTISOC*/, 0.0/*DYING*/, 0.0/*DEAD*/ }  
 };
 
 
