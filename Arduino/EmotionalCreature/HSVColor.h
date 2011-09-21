@@ -26,6 +26,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***********************************
  */
+#ifndef HSVColor_h
+#define HSVColor_h
 
 
 class HSVColori
@@ -379,3 +381,4 @@ public:
   //end class HSVColorf
 };
 
+#endif
