@@ -40,7 +40,13 @@
  -------|-----------------------|----|-----------------------|----
  /
  
- 
+ * This uses 2 Piranha RGB LEDs connected to the 
+ * Dimmer plug, which is on port 2 of the JeeNode.
+ * I used a ~600 Ohm resistor from the PWR pin (or, you can use the + pin which is 3.3V)
+ * on the Dimmer plug to the common anode of the 
+ * LED, with direct connection between the G and B pins
+ * to the LEDs and a 100 Ohm resistor to the R pin on the LED.
+ *
  */
  
  
