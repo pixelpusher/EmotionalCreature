@@ -73,7 +73,7 @@ float InternalStateMap[][] = {
  /*ANTISOC*/
  { 0.0/*HAPPY*/, 0.0/*SAD*/,
   0.1/*ANGRY*/, 0.2/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.2/*HORNY*/, 0.4/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  0.0/*HUNGRY*/, 0.15/*HORNY*/, 0.4/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
  /*DYING*/
  { 0.0/*HAPPY*/, 0.0/*SAD*/,
@@ -83,13 +83,13 @@ float InternalStateMap[][] = {
  /*DEAD*/
  { 0.0/*HAPPY*/, 0.0/*SAD*/,
   0.0/*ANGRY*/, 0.0/*BORED*/, 0.0/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.0/*ANTISOC*/, 0.0/*DYING*/, 0.0/*DEAD*/ }  
+  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.0/*ANTISOC*/, 0.0/*DYING*/, 1.0f /*DEAD*/ }  
 };
 
 
 int updateInternalEmotionalState(int currentState)
 {
-  float r = random(10000)/10000.0f;
+  float r = random(0,10000)/10000.0f;
   float sum = 0.0f;
   int index = HAPPY;
   
@@ -97,21 +97,64 @@ int updateInternalEmotionalState(int currentState)
   //Serial.print("r=");
   //Serial.println(r);
   
-  while (sum<r && index != EMOTIONS_END)
+  while (  index < EMOTIONS_END )
   {
     float _emval = InternalStateMap[currentState][index];
     
     // For debugging:
-//    Serial.print("i,emval=");
-//    Serial.print(index);
-//    Serial.print(",");
-//    Serial.println(_emval);
-    index++;
     
-    // skip 0 states
-    if (_emval == 0.0f) continue;
+//    print("r=" + r + "::");
+//    print("i,emval=");
+//    print(states[index]);
+//    print(",");
+//    println(_emval);  
+   
     sum += _emval;
     
+    if (sum < r)
+      ++index;
+    else
+      break;
   }
+  
+  
+  // if the states are sane, this shouldn't happen:
+  if (index == EMOTIONS_END)
+  {
+    // default to HAPPY
+    index = HAPPY;
+    println("******Bad internal state determined - map is probably corrupt somehow");
+  }
+  
   return index;
 }
+
+
+//
+// make sure the internap state map is kosher (or halal)
+//
+boolean testInternalStateMap()
+{
+  boolean result = true;
+  
+  
+  for (int i=0; i<EMOTIONS_END; ++i)
+  {
+    float stateSum = 0.0f;
+    
+    for (int j=0; j<EMOTIONS_END; ++j)
+    {
+       stateSum += InternalStateMap[i][j];
+    }
+    
+    if (stateSum != 1.0f)
+    {
+      result = result && false;
+      // ERROR!!
+      println("Bad internal state map for " + states[i] + " :: " + stateSum + " (should be " + 1.0 + ")");
+    }
+  }
+  
+  return result;
+}
+
