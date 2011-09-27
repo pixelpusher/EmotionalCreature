@@ -26,7 +26,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***********************************
  */
- 
+
 #ifndef _EMOS_INTERNAL_
 #define _EMOS_INTERNAL_
 
@@ -34,52 +34,73 @@
 
 float InternalStateMap[NUM_EMOTIONS][NUM_EMOTIONS] = {
   /*HAPPY*/
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,
 
   /*SAD*/
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,  
 
-  /*ANGRY*/ 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  /*ANGRY*/
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,  
 
- /*BORED*/
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  /*BORED*/
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }
+  ,  
 
- { 0.5/*HAPPY*/, 0.0/*SAD*/,
-  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ }  
+  { 
+    0.5/*HAPPY*/, 0.0/*SAD*/,
+    0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+    0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/   }  
 
 };
 
@@ -89,32 +110,41 @@ EmotionState updateInternalEmotionalState(EmotionState currentState)
   float r = random(10000)/10000.0f;
   float sum = 0.0f;
   EmotionState index = HAPPY;
-  
+
   // For debugging:
   //Serial.print("r=");
   //Serial.println(r);
-  
+
   while (  index < EMOTIONS_END )
   {
     float _emval = InternalStateMap[currentState][index];
-    
+
     // For debugging:
-    
-//    print("r=" + r + "::");
-//    print("i,emval=");
-//    print(states[index]);
-//    print(",");
-//    println(_emval);  
-   
+
+    //    print("r=" + r + "::");
+    //    print("i,emval=");
+    //    print(states[index]);
+    //    print(",");
+    //    println(_emval);  
+
     sum += _emval;
-    
+
     if (sum < r)
       index++;
     else
       break;
+
+    // if the states are sane, this shouldn't happen:
+    if (index == EMOTIONS_END)
+    {
+      // default to HAPPY
+      index = HAPPY;
+      //Serial.println("*****Bad External state determined - map is probably corrupt somehow");
+    }
   }
-  
+
   return index;
 }
 
 #endif
+

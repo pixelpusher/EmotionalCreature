@@ -81,6 +81,14 @@ EmotionState updateExternalEmotionalState(EmotionState currentState, EmotionStat
       index++;
     else
       break;
+      
+    // if the states are sane, this shouldn't happen:
+    if (index == EMOTIONS_END)
+    {
+      // default to HAPPY
+      index = HAPPY;
+      //Serial.println("*****Bad External state determined - map is probably corrupt somehow");
+    }
   }
 
   return index;
