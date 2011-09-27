@@ -40,6 +40,9 @@ import toxi.geom.Rect;
 import toxi.geom.Circle;
 
 
+boolean showStateColors = true;
+
+
 void setup()
 {
   size(640, 480);
@@ -69,33 +72,44 @@ void setup()
     if (i < maxStates-1) print(",");
   }
   println("};");
-  
+
   boolean goodStateMaps = true; // let's be optimistic here!
-  
+
   if (testExternalStateMap())
   {
     println("EXTERNAL STATE MAP IS A-OK");
   }
   else goodStateMaps = goodStateMaps && false;
-  
+
   if (testInternalStateMap())
   {
     println("INTERNAL STATE MAP IS A-OK");
   }
   else goodStateMaps = goodStateMaps && false;
-  
-  
+
+
   // if it fails, might as well quit now!
   //if (!goodStateMaps) exit();
-  
+
+  textSize(18);
 }
 
 
 
 void draw()
 {
+  smooth();
   fill(0, 20);
   rect(0, 0, width, height);
+
+
+  // draw states menu
+  if (showStateColors)
+  {
+    
+    fill(80,255);
+    rect(0,0, 150, EMOTIONS_END*24+5);
+  }
 
   // draw creatures
 
@@ -139,6 +153,23 @@ void draw()
       popMatrix();
     }
     creature.render();
+  }
+
+  // draw states menu
+  if (showStateColors)
+  {    
+    pushMatrix();
+    translate(5, -18);
+    for (int i=0; i<EMOTIONS_END; ++i)
+    {
+      translate(0, 24);
+      fill( stateColors[i] & 0xeeFFFFFF);
+      stroke( stateColors[i] );
+
+      rect( 0, 0, 20, 20 );
+      text(states[i], 22, 18);
+    }
+    popMatrix();
   }
 }
 
@@ -208,6 +239,20 @@ void mouseDragged()
 }
 
 
+
+void keyReleased()
+{
+  switch(key)
+  {
+    case 'c': showStateColors = !showStateColors;
+    break;
+  }
+}
+
+
+//
+// Creature class
+//
 
 class Creature extends toxi.geom.Rect
 {
@@ -346,5 +391,4 @@ class Creature extends toxi.geom.Rect
 
   // end Creature class
 }
-
 
