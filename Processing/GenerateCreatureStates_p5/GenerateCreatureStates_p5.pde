@@ -116,6 +116,8 @@ void setupStates()
 {
   //far  all which aren't 0 :
 
+  
+
   //HAPPY
   //Serial.println("HAPPY:");
   ExternalStateMap3D[HAPPY][HAPPY][HAPPY] = 5;
@@ -173,16 +175,28 @@ void setupStates()
   ExternalStateMap3D[HAPPY][DISGUSTED][DYING] = 0;
   ExternalStateMap3D[HAPPY][DISGUSTED][DEAD] = 0;
 
-  ExternalStateMap3D[HAPPY][SURPRISED][HAPPY] = 0;
-  ExternalStateMap3D[HAPPY][SURPRISED][SAD] = 0;
-  ExternalStateMap3D[HAPPY][SURPRISED][ANGRY] = 0;
+  ExternalStateMap3D[HAPPY][SURPRISED][HAPPY] = 2;
+  ExternalStateMap3D[HAPPY][SURPRISED][SAD] = 2;
+  ExternalStateMap3D[HAPPY][SURPRISED][ANGRY] = 1;
   ExternalStateMap3D[HAPPY][SURPRISED][BORED] = 0;
-  ExternalStateMap3D[HAPPY][SURPRISED][DISGUSTED] = 0;
-  ExternalStateMap3D[HAPPY][SURPRISED][SURPRISED] = 0;
-  ExternalStateMap3D[HAPPY][SURPRISED][HORNY] = 0;
-  ExternalStateMap3D[HAPPY][SURPRISED][ANTISOCIAL] = 0;
+  ExternalStateMap3D[HAPPY][SURPRISED][DISGUSTED] = 1;
+  ExternalStateMap3D[HAPPY][SURPRISED][SURPRISED] = 2;
+  ExternalStateMap3D[HAPPY][SURPRISED][HORNY] = 1;
+  ExternalStateMap3D[HAPPY][SURPRISED][ANTISOCIAL] = 1;
   ExternalStateMap3D[HAPPY][SURPRISED][DYING] = 0;
   ExternalStateMap3D[HAPPY][SURPRISED][DEAD] = 0;
+
+  // needs fixing
+  ExternalStateMap3D[HAPPY][HUNGRY][HAPPY] = 2;
+  ExternalStateMap3D[HAPPY][HUNGRY][SAD] = 2;
+  ExternalStateMap3D[HAPPY][HUNGRY][ANGRY] = 2;
+  ExternalStateMap3D[HAPPY][HUNGRY][BORED] = 0;
+  ExternalStateMap3D[HAPPY][HUNGRY][DISGUSTED] = 2;
+  ExternalStateMap3D[HAPPY][HUNGRY][SURPRISED] = 0;
+  ExternalStateMap3D[HAPPY][HUNGRY][HORNY] = 0;
+  ExternalStateMap3D[HAPPY][HUNGRY][ANTISOCIAL] = 2;
+  ExternalStateMap3D[HAPPY][HUNGRY][DYING] = 0;
+  ExternalStateMap3D[HAPPY][HUNGRY][DEAD] = 0;
 
   ExternalStateMap3D[HAPPY][HORNY][HAPPY] = 0;
   ExternalStateMap3D[HAPPY][HORNY][SAD] = 0;
@@ -230,7 +244,7 @@ void setupStates()
 
 
   //SAD
-  
+
   ExternalStateMap3D[SAD][HAPPY][HAPPY] = 3;
   ExternalStateMap3D[SAD][HAPPY][SAD] = 2;
   ExternalStateMap3D[SAD][HAPPY][ANGRY] = 2;
@@ -286,23 +300,36 @@ void setupStates()
   ExternalStateMap3D[SAD][DISGUSTED][DYING] = 0;
   ExternalStateMap3D[SAD][DISGUSTED][DEAD] = 0;
 
-  ExternalStateMap3D[SAD][SURPRISED][HAPPY] = 0;
-  ExternalStateMap3D[SAD][SURPRISED][SAD] = 0;
-  ExternalStateMap3D[SAD][SURPRISED][ANGRY] = 0;
+  // needs fixing
+  ExternalStateMap3D[SAD][SURPRISED][HAPPY] = 2;
+  ExternalStateMap3D[SAD][SURPRISED][SAD] = 2;
+  ExternalStateMap3D[SAD][SURPRISED][ANGRY] = 1;
   ExternalStateMap3D[SAD][SURPRISED][BORED] = 0;
-  ExternalStateMap3D[SAD][SURPRISED][DISGUSTED] = 0;
-  ExternalStateMap3D[SAD][SURPRISED][SURPRISED] = 0;
-  ExternalStateMap3D[SAD][SURPRISED][HORNY] = 0;
-  ExternalStateMap3D[SAD][SURPRISED][ANTISOCIAL] = 0;
+  ExternalStateMap3D[SAD][SURPRISED][DISGUSTED] = 1;
+  ExternalStateMap3D[SAD][SURPRISED][SURPRISED] = 2;
+  ExternalStateMap3D[SAD][SURPRISED][HORNY] = 1;
+  ExternalStateMap3D[SAD][SURPRISED][ANTISOCIAL] = 1;
   ExternalStateMap3D[SAD][SURPRISED][DYING] = 0;
   ExternalStateMap3D[SAD][SURPRISED][DEAD] = 0;
 
-  ExternalStateMap3D[SAD][HORNY][HAPPY] = 4;
+  // needs fixing
+  ExternalStateMap3D[SAD][HUNGRY][HAPPY] = 2;
+  ExternalStateMap3D[SAD][HUNGRY][SAD] = 2;
+  ExternalStateMap3D[SAD][HUNGRY][ANGRY] = 2;
+  ExternalStateMap3D[SAD][HUNGRY][BORED] = 0;
+  ExternalStateMap3D[SAD][HUNGRY][DISGUSTED] = 2;
+  ExternalStateMap3D[SAD][HUNGRY][SURPRISED] = 0;
+  ExternalStateMap3D[SAD][HUNGRY][HORNY] = 0;
+  ExternalStateMap3D[SAD][HUNGRY][ANTISOCIAL] = 2;
+  ExternalStateMap3D[SAD][HUNGRY][DYING] = 0;
+  ExternalStateMap3D[SAD][HUNGRY][DEAD] = 0;
+
+  ExternalStateMap3D[SAD][HORNY][HAPPY] = 2;
   ExternalStateMap3D[SAD][HORNY][SAD] = 0;
   ExternalStateMap3D[SAD][HORNY][ANGRY] = 3;
   ExternalStateMap3D[SAD][HORNY][BORED] = 0;
   ExternalStateMap3D[SAD][HORNY][DISGUSTED] = 3;
-  ExternalStateMap3D[SAD][HORNY][SURPRISED] = 4;
+  ExternalStateMap3D[SAD][HORNY][SURPRISED] = 2;
   ExternalStateMap3D[SAD][HORNY][HORNY] = 0;
   ExternalStateMap3D[SAD][HORNY][ANTISOCIAL] = 0;
   ExternalStateMap3D[SAD][HORNY][DYING] = 0;
@@ -367,7 +394,7 @@ void setupStates()
   ExternalStateMap3D[ANGRY][SAD][DYING] = 0;
   ExternalStateMap3D[ANGRY][SAD][DEAD] = 0;
 
-  ExternalStateMap3D[ANGRY][ANGRY][HAPPY] = 3;
+  ExternalStateMap3D[ANGRY][ANGRY][HAPPY] = 2;
   ExternalStateMap3D[ANGRY][ANGRY][SAD] = 1;
   ExternalStateMap3D[ANGRY][ANGRY][ANGRY] = 3;
   ExternalStateMap3D[ANGRY][ANGRY][BORED] = 0;
@@ -410,6 +437,18 @@ void setupStates()
   ExternalStateMap3D[ANGRY][SURPRISED][ANTISOCIAL] = 0;
   ExternalStateMap3D[ANGRY][SURPRISED][DYING] = 0;
   ExternalStateMap3D[ANGRY][SURPRISED][DEAD] = 0;
+
+  // needs fixing
+  ExternalStateMap3D[ANGRY][HUNGRY][HAPPY] = 0;
+  ExternalStateMap3D[ANGRY][HUNGRY][SAD] = 0;
+  ExternalStateMap3D[ANGRY][HUNGRY][ANGRY] = 3;
+  ExternalStateMap3D[ANGRY][HUNGRY][BORED] = 0;
+  ExternalStateMap3D[ANGRY][HUNGRY][DISGUSTED] = 3;
+  ExternalStateMap3D[ANGRY][HUNGRY][SURPRISED] = 0;
+  ExternalStateMap3D[ANGRY][HUNGRY][HORNY] = 0;
+  ExternalStateMap3D[ANGRY][HUNGRY][ANTISOCIAL] = 4;
+  ExternalStateMap3D[ANGRY][HUNGRY][DYING] = 0;
+  ExternalStateMap3D[ANGRY][HUNGRY][DEAD] = 0;
 
   ExternalStateMap3D[ANGRY][HORNY][HAPPY] = 0;
   ExternalStateMap3D[ANGRY][HORNY][SAD] = 4;
@@ -457,7 +496,7 @@ void setupStates()
 
 
   //BORED
-  
+
   ExternalStateMap3D[BORED][HAPPY][HAPPY] = 3;
   ExternalStateMap3D[BORED][HAPPY][SAD] = 2;
   ExternalStateMap3D[BORED][HAPPY][ANGRY] = 2;
@@ -490,6 +529,18 @@ void setupStates()
   ExternalStateMap3D[BORED][ANGRY][ANTISOCIAL] = 0;
   ExternalStateMap3D[BORED][ANGRY][DYING] = 0;
   ExternalStateMap3D[BORED][ANGRY][DEAD] = 0;
+
+  // needs fixing
+  ExternalStateMap3D[BORED][HUNGRY][HAPPY] = 2;
+  ExternalStateMap3D[BORED][HUNGRY][SAD] = 2;
+  ExternalStateMap3D[BORED][HUNGRY][ANGRY] = 2;
+  ExternalStateMap3D[BORED][HUNGRY][BORED] = 0;
+  ExternalStateMap3D[BORED][HUNGRY][DISGUSTED] = 2;
+  ExternalStateMap3D[BORED][HUNGRY][SURPRISED] = 0;
+  ExternalStateMap3D[BORED][HUNGRY][HORNY] = 0;
+  ExternalStateMap3D[BORED][HUNGRY][ANTISOCIAL] = 2;
+  ExternalStateMap3D[BORED][HUNGRY][DYING] = 0;
+  ExternalStateMap3D[BORED][HUNGRY][DEAD] = 0;
 
   ExternalStateMap3D[BORED][BORED][HAPPY] = 0;
   ExternalStateMap3D[BORED][BORED][SAD] = 0;
@@ -537,12 +588,12 @@ void setupStates()
 
   ExternalStateMap3D[BORED][ANTISOCIAL][HAPPY] = 0;
   ExternalStateMap3D[BORED][ANTISOCIAL][SAD] = 0;
-  ExternalStateMap3D[BORED][ANTISOCIAL][ANGRY] = 0;
+  ExternalStateMap3D[BORED][ANTISOCIAL][ANGRY] = 3;
   ExternalStateMap3D[BORED][ANTISOCIAL][BORED] = 0;
-  ExternalStateMap3D[BORED][ANTISOCIAL][DISGUSTED] = 0;
+  ExternalStateMap3D[BORED][ANTISOCIAL][DISGUSTED] = 3;
   ExternalStateMap3D[BORED][ANTISOCIAL][SURPRISED] = 0;
   ExternalStateMap3D[BORED][ANTISOCIAL][HORNY] = 0;
-  ExternalStateMap3D[BORED][ANTISOCIAL][ANTISOCIAL] = 0;
+  ExternalStateMap3D[BORED][ANTISOCIAL][ANTISOCIAL] = 4;
   ExternalStateMap3D[BORED][ANTISOCIAL][DYING] = 0;
   ExternalStateMap3D[BORED][ANTISOCIAL][DEAD] = 0;
 
@@ -570,7 +621,7 @@ void setupStates()
 
 
   //DISGUSTED
-  
+
   ExternalStateMap3D[DISGUSTED][HAPPY][HAPPY] = 0;
   ExternalStateMap3D[DISGUSTED][HAPPY][SAD] = 0;
   ExternalStateMap3D[DISGUSTED][HAPPY][ANGRY] = 5;
@@ -683,7 +734,7 @@ void setupStates()
 
 
   //SURPRISED
-  
+
   ExternalStateMap3D[SURPRISED][HAPPY][HAPPY] = 0;
   ExternalStateMap3D[SURPRISED][HAPPY][SAD] = 0;
   ExternalStateMap3D[SURPRISED][HAPPY][ANGRY] = 0;
@@ -796,7 +847,7 @@ void setupStates()
 
 
   //HORNY
-  
+
 
   ExternalStateMap3D[HORNY][HAPPY][HAPPY] = 0;
   ExternalStateMap3D[HORNY][HAPPY][SAD] = 0;
@@ -910,7 +961,7 @@ void setupStates()
 
 
   //ANTISOCIAL
-  
+
   ExternalStateMap3D[ANTISOCIAL][HAPPY][HAPPY] = 0;
   ExternalStateMap3D[ANTISOCIAL][HAPPY][SAD] = 0;
   ExternalStateMap3D[ANTISOCIAL][HAPPY][ANGRY] = 5;
@@ -1055,10 +1106,4 @@ void setupStates()
   ExternalStateMap3D[DEAD][ANTISOCIAL][DEAD] = 10;
   ExternalStateMap3D[DEAD][DYING][DEAD] = 10;
   ExternalStateMap3D[DEAD][DEAD][DEAD] = 10;
-  
-
 }
-
-  
-
-

@@ -94,23 +94,26 @@ EmotionState updateInternalEmotionalState(EmotionState currentState)
   //Serial.print("r=");
   //Serial.println(r);
   
-  
-  while (sum<r && index != EMOTIONS_END)
+  while (  index < EMOTIONS_END )
   {
     float _emval = InternalStateMap[currentState][index];
     
     // For debugging:
-//    Serial.print("i,emval=");
-//    Serial.print(index);
-//    Serial.print(",");
-//    Serial.println(_emval);
-    index++;
     
-    // skip 0 states
-    if (_emval == 0.0f) continue;
+//    print("r=" + r + "::");
+//    print("i,emval=");
+//    print(states[index]);
+//    print(",");
+//    println(_emval);  
+   
     sum += _emval;
     
+    if (sum < r)
+      index++;
+    else
+      break;
   }
+  
   return index;
 }
 
