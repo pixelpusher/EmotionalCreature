@@ -1,13 +1,13 @@
 // --------------------------- Set tone types ---------------------------
 
 // Simple flat tones
-void setToneSimple()
+void setInstrumentSimple()
 {
   toneFunc = &_toneSimple;
 }
 
 // Simple flat tones
-void setToneRandom(int spreadFreq, int individualNoteLength)
+void setInstrumentRandom(int spreadFreq, int individualNoteLength)
 {
   toneInt1 = spreadFreq;
   toneInt2 = individualNoteLength;
@@ -16,7 +16,7 @@ void setToneRandom(int spreadFreq, int individualNoteLength)
 }
 
 // play a chord with count number of notes with spreadFreq hz between them
-void setToneChord(int spreadFreq, int count, int individualNoteLength)
+void setInstrumentChord(int spreadFreq, int count, int individualNoteLength)
 {
   toneInt1 = spreadFreq;
   toneInt2 = count;
@@ -26,7 +26,7 @@ void setToneChord(int spreadFreq, int count, int individualNoteLength)
 }
 
 // Sin wave note
-void setToneWave(int amplitud, int cycleLength)
+void setInstrumentWave(int amplitud, int cycleLength)
 {
   toneInt1 = amplitud;
   toneInt2 = cycleLength;

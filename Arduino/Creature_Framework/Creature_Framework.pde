@@ -2,12 +2,12 @@
 // RGOL Creature framework code
 //
 
-//#include <Ports.h>
-//#include <RF12.h> // needed to avoid a linker error :(
+#include <Ports.h>
+#include <RF12.h> // needed to avoid a linker error :(
 
 
-//PortI2C myBus (2);
-//DimmerPlug dimmer (myBus, 0x41);
+PortI2C myBus (2);
+DimmerPlug dimmer (myBus, 0x40);
 
 // the pin on which the speaker is attached 
 int soundPin=3; // I on port 4
@@ -15,39 +15,142 @@ int soundPin=3; // I on port 4
 #include "Math.h"
 #include "SoundInternal.h"
 #include "Sounds.h"
+#include "LightInternal.h"
+#include "Light.h"
 
 void setup()
 {
- // dimmer.begin();
+  dimmer.begin();
   
   // set up for totem pole - make it white, must be attached to power
-  //dimmer.setReg(dimmer.MODE2, 0x14);
+  dimmer.setReg(dimmer.MODE2, 0x05);
   
+  Serial.begin(57600); // for debugging only
 }
+
 
 void loop()
 {
-  setToneSimple();
+ 
+ 
+ for(int i=0;i<2; i++)
+ { 
+   int r=0;
+   int g=0;
+   int b=0;
+   while(r+g+b < 200)
+   {
+     r=random(0,2)*127;
+     g=random(0,2)*127;
+     b=random(0,2)*127;
+   }
+   lightFade(i, r, g, b, 200); 
+ }
+ wait(500); 
+ 
+
+  
+  /*
+  
+  setInstrumentSimple();
+  
+ playSoundRamp(100, 800, 300);
+  
+ lightFade(0, 0, 0, 0, 500); 
+ lightFade(1, 0, 0, 0, 500);
+ wait(1000); 
+ playSoundRamp(200, 900, 300);
+ wait(1000); 
+ 
+ playSoundRamp(150, 850, 300);
+ 
+ lightFade(0, 255, 255, 255, 500); 
+ lightFade(1, 255, 255, 255, 500);
+ wait(2000); 
+ 
+ lightFade(0, 255, 0, 0, 500); 
+ lightFade(1, 255, 0, 0, 500);
+ wait(200); 
+ playSoundRamp(100, 1000, 500);
+ wait(1800); 
+ 
+
+ setInstrumentWave(300, 100); 
+ playSoundRamp(1000, 100, 3000);
+ 
+ lightFade(0, 0, 255, 0, 500); 
+ lightFade(1, 0, 255, 0, 500);
+ wait(2000); 
+ 
+ lightFade(0, 0, 0, 255, 500); 
+ lightFade(1, 0, 0, 255, 500);
+ wait(2000); 
+
+
+setInstrumentChord(200, 3, 10);
+playSoundWave(300, 200, 500, 4000);
+
+for(int i=0; i<100; i++)
+{
+ lightFade(0, 0, 0, 0, 5); 
+ lightFade(1, 0, 0, 0, 5);
+ wait(20); 
+ 
+ lightFade(0, 255, 255, 255, 5); 
+ lightFade(1, 255, 255, 255, 5);
+ wait(20); 
+}
+
+*/
+
+
+ 
+ /*
+ lightFade(0, white*255, white*255, white*255, 100); white = 1-white;
+ lightFade(1, 0, 255, 0, 100);
+ wait(1000); 
+ 
+ lightFade(0, white*255, white*255, white*255, 100); white = 1-white;
+ lightFade(1, 0, 0, 255, 100);
+ wait(1000);
+  */
+ /* 
+ lightFade(0, 255, 0, 0, 1500);
+ lightFade(1, 0, 255, 255, 500);
+ wait(1500);
+ 
+ 
+ lightFade(0, 255, 0, 255, 1500);
+ lightFade(1, 0, 0, 255, 500);
+ wait(1500);
+ 
+ lightFade(0, 0, 0, 0, 1500);
+ lightFade(1, 0, 0, 0, 500);
+ wait(1500);
+  */
+  /*
+  setInstrumentSimple();
+  playDemoSounds();
+    
+  setInstrumentWave(300, 100);
+  playDemoSounds();
+  setInstrumentWave(500, 20);
   playDemoSounds();
   
-  setToneWave(300, 100);
+  setInstrumentChord(300, 2, 100);
   playDemoSounds();
-  setToneWave(500, 20);
+  setInstrumentChord(200, 4, 50);
   playDemoSounds();
-  
-  setToneChord(300, 2, 100);
-  playDemoSounds();
-  setToneChord(200, 4, 50);
-  playDemoSounds();
-  setToneChord(200, 3, 10);
+  setInstrumentChord(200, 3, 10);
   playDemoSounds();
   
-  setToneRandom(200, 1);
+  setInstrumentRandom(200, 1);
   playDemoSounds();
-  setToneRandom(200, 10);
+  setInstrumentRandom(200, 10);
   playDemoSounds();
-  setToneRandom(200, 50);
+  setInstrumentRandom(200, 50);
   playDemoSounds();
+  */
 }
 
 // Plays all demo sounds with set tone
@@ -70,6 +173,7 @@ void wait(int ms)
   while(millis() < endTicks)
   {
     updateSound();
+    updateLight();
     delay(1); 
   }
 }
