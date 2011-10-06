@@ -79,7 +79,7 @@ String[] getSearchTweets(String queryStr)
       String user = t.getFromUser();
       String msg = t.getText();
       Date d = t.getCreatedAt();	
-      searchResults[i] = msg.substring(queryStr.length()+1);
+      searchResults[i] = user + ": " + msg;
 
       // DEBUG:
       println(searchResults[i]);
