@@ -1,13 +1,21 @@
 // --------------------------- Set tone types ---------------------------
 
 // Simple flat tones
+<<<<<<< HEAD
+void setToneSimple()
+=======
 void setInstrumentSimple()
+>>>>>>> brainflakes/master
 {
   toneFunc = &_toneSimple;
 }
 
 // Simple flat tones
+<<<<<<< HEAD
+void setToneRandom(int spreadFreq, int individualNoteLength)
+=======
 void setInstrumentRandom(int spreadFreq, int individualNoteLength)
+>>>>>>> brainflakes/master
 {
   toneInt1 = spreadFreq;
   toneInt2 = individualNoteLength;
@@ -16,7 +24,11 @@ void setInstrumentRandom(int spreadFreq, int individualNoteLength)
 }
 
 // play a chord with count number of notes with spreadFreq hz between them
+<<<<<<< HEAD
+void setToneChord(int spreadFreq, int count, int individualNoteLength)
+=======
 void setInstrumentChord(int spreadFreq, int count, int individualNoteLength)
+>>>>>>> brainflakes/master
 {
   toneInt1 = spreadFreq;
   toneInt2 = count;
@@ -26,7 +38,11 @@ void setInstrumentChord(int spreadFreq, int count, int individualNoteLength)
 }
 
 // Sin wave note
+<<<<<<< HEAD
+void setToneWave(int amplitud, int cycleLength)
+=======
 void setInstrumentWave(int amplitud, int cycleLength)
+>>>>>>> brainflakes/master
 {
   toneInt1 = amplitud;
   toneInt2 = cycleLength;
