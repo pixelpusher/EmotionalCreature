@@ -31,21 +31,23 @@
  ***********************************
  */
 
-ArrayList<Creature> creatures = new ArrayList<Creature>();
-
-Creature selectedCreature;
-
 import toxi.geom.Vec2D;
 import toxi.geom.Rect;
 import toxi.geom.Circle;
 
 
+ArrayList<Creature> creatures = new ArrayList<Creature>();
+
+Creature selectedCreature;
+
 boolean showStateColors = true;
+
+String currentCreatureAccount = "";
 
 
 void setup()
 {
-  size(screen.width, screen.height);
+  size(640, 480);
 
   selectedCreature = null;
 
@@ -91,6 +93,51 @@ void setup()
   // if it fails, might as well quit now!
   //if (!goodStateMaps) exit();
 
+  //
+  // Twitter stuff
+  //
+  creatureCreds = getCredentials(CREDS_FILE);
+
+  // DEBUG:
+  for (Credentials cred : creatureCreds)
+  {
+    //    println("Credentials: " + cred);
+    currentCreatureAccount = cred.name;
+    //    connectTwitter(cred);
+
+    // create a new creature from this account
+    Creature creature = new Creature(random(60, width-60), random(80, height-80), 60.0f, 80.0f, 40.0f);
+    creature.credentials = cred;
+    creature.initTwitter();
+    creature.rotateSelf(random(0, TWO_PI));
+    creatures.add( creature );
+    println("New creature: " + cred.name);
+
+
+    println("Getting search tweets:");
+    String[] tweets = getSearchTweets("@"+cred.name, creature.getTwitter());
+    for (String tweet : tweets)
+      println(tweet);
+
+    println("Getting timeline:");
+    String[] statuses = getTimeline(creature.getTwitter());
+    for (String status : statuses)
+      println(status);
+    try
+    { 
+      println("Folowed by " + getNumberFollowers(cred.name, creature.getTwitter()));
+    }
+    catch ( TwitterException e)
+    {
+      println("Failed getting followers from Twitter[" + e.getStatusCode() + "]");
+      println( e.getMessage() );
+    }
+  }
+  //
+  // done with twitter stuff
+  //
+
+
   textSize(18);
 }
 
@@ -106,9 +153,9 @@ void draw()
   // draw states menu
   if (showStateColors)
   {
-    
-    fill(80,255);
-    rect(0,0, 150, EMOTIONS_END*24+5);
+
+    fill(80, 255);
+    rect(0, 0, 150, EMOTIONS_END*24+5);
   }
 
   // draw creatures
@@ -135,8 +182,21 @@ void draw()
             {
               ellipse(vis.x, vis.y, 6, 6);
             }
+            int pe = creature.mEmotion;
 
             creature.setEmotion( updateExternalEmotionalState(creature.mEmotion, c.mEmotion) );
+
+            if (creature.mEmotion != pe) 
+            {
+              int s = second();  // Values from 0 - 59
+              int mi = minute();  // Values from 0 - 59
+              int h = hour();    // Values from 0 - 23
+              int d = day();    // Values from 1 - 31
+              int mo = month();  // Values from 1 - 12
+              int y = year();   // 2003, 2004, 2005, etc.
+
+              creature.tweet(c.credentials.name + " made me " + states[creature.mEmotion] +" at "+h+ ":" +mi+ ":" +s+ " - " +d+ "/" +mo+ "/" +y);
+            }
           }
         }
       }
@@ -199,16 +259,22 @@ void mousePressed()
 
   if (selectedCreature == null)
   {
-    println("New creature!");
-    Creature creature = new Creature(mouseX, mouseY, 60.0f, 80.0f, 40.0f);
-    creature.rotateSelf(random(0, TWO_PI));
-    /*
-    Creature creature = new Creature();
-     creature.x = mouseX;
-     creature.y = mouseY;
-     creature.mRotation = random(0,TWO_PI);
-     */
-    creatures.add( creature );
+    //    println("New creature!");
+    //    Creature creature = new Creature(mouseX, mouseY, 60.0f, 80.0f, 40.0f);
+    //    creature.rotateSelf(random(0, TWO_PI));
+    //    creatures.add( creature );
+  }
+  else
+  {
+    int s = second();  // Values from 0 - 59
+    int mi = minute();  // Values from 0 - 59
+    int h = hour();    // Values from 0 - 23
+    int d = day();    // Values from 1 - 31
+    int mo = month();  // Values from 1 - 12
+    int y = year();   // 2003, 2004, 2005, etc.
+
+    String myTweet = "I was fed at " +h+ ":" +mi+ ":" +s+ " - " +d+ "/" +mo+ "/" +y+ "";
+    selectedCreature.tweet(myTweet);
   }
 }
 
@@ -244,13 +310,13 @@ void keyReleased()
 {
   switch(key)
   {
-    case 'c': showStateColors = !showStateColors;
+  case 'c': 
+    showStateColors = !showStateColors;
     break;
-    
-    case 'r': 
-      for (Creature c : creatures)
-        c.mEmotion = HAPPY;
-      break;
+  case 'r':
+    for (Creature c : creatures)
+      c.mEmotion = HAPPY;
+    break;
   }
 }
 
@@ -262,6 +328,7 @@ void keyReleased()
 class Creature extends toxi.geom.Rect
 {
   Circle mBeamPoint;
+  Credentials  credentials = null;  // twitter account credentials loaded from a file
 
   float BeamAngle         = PI/4; // radians
   float BeamRadius        = 60.0f; // pixels
@@ -280,6 +347,8 @@ class Creature extends toxi.geom.Rect
   boolean mBroadcastingEmotion  = false;
 
 
+  private TwitterFactory  twitterFactory = null;
+
   Creature()
   {
     super(0, 0, 60, 80);
@@ -292,6 +361,29 @@ class Creature extends toxi.geom.Rect
     super(_x, _y, _w, _h);
     mBeamPoint = new Circle(_w/2+_x, _y, _r);
   }     
+
+
+  void initTwitter()
+  {
+    ConfigurationBuilder cb = new ConfigurationBuilder();
+    cb.setDebugEnabled(true)
+      .setOAuthConsumerKey(credentials.OAuthConsumerKey)
+        .setOAuthConsumerSecret(credentials.OAuthConsumerSecret)
+          .setOAuthAccessToken(credentials.AccessToken)
+            .setOAuthAccessTokenSecret(credentials.AccessTokenSecret);
+    twitterFactory = new TwitterFactory(cb.build());
+  }
+
+  Twitter getTwitter() 
+  {
+    Twitter result = null;
+
+    // could use exception here to be cleaner
+    if (twitterFactory != null) {
+      result = twitterFactory.getInstance();
+    }
+    return result;
+  }
 
 
   void update(int timeElapsed)
@@ -353,6 +445,26 @@ class Creature extends toxi.geom.Rect
     return this;
   }
 
+
+  Twitter tweet(String msg)
+  {
+    Twitter twitter = null;
+
+    try {
+
+      twitter = twitterFactory.getInstance();
+
+      Status status = twitter.updateStatus(msg);
+      println("Successfully updated the status to [" + status.getText() + "].");
+    } 
+    catch(TwitterException e) { 
+      println("Send tweet: " + e + " Status code: " + e.getStatusCode());
+    }
+
+    return twitter;
+  }
+
+
   void render()
   {
     pushMatrix();
@@ -368,8 +480,10 @@ class Creature extends toxi.geom.Rect
     strokeWeight(2);
     rectMode(CORNER);
     rect(0, 0, this.width, this.height);
-
-
+    rotate(HALF_PI);
+    fill(255);
+    text(credentials.name, 10, -this.height/2);
+    rotate(-HALF_PI);
     // draw broadcast nub
     pushMatrix();
     translate(this.width/2, 0);

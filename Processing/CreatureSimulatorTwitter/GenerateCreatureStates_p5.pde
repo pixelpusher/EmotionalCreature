@@ -633,7 +633,7 @@ void setupStates()
   ExternalStateMap3D[BORED][SURPRISED][ANGRY] = 0;
   ExternalStateMap3D[BORED][SURPRISED][BORED] = 0;
   ExternalStateMap3D[BORED][SURPRISED][DISGUSTED] = 0;
-  ExternalStateMap3D[BORED][SURPRISED][SURPRISED] = 10;
+  ExternalStateMap3D[BORED][SURPRISED][SURPRISED] = 0;
   ExternalStateMap3D[BORED][SURPRISED][HORNY] = 0;
   ExternalStateMap3D[BORED][SURPRISED][ANTISOCIAL] = 0;
   ExternalStateMap3D[BORED][SURPRISED][DYING] = 0;
@@ -763,19 +763,6 @@ void setupStates()
   ExternalStateMap3D[DISGUSTED][HORNY][DYING] = 0;
   ExternalStateMap3D[DISGUSTED][HORNY][DEAD] = 0;
 
-
-  ExternalStateMap3D[DISGUSTED][HUNGRY][HAPPY] = 0;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][SAD] = 0;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][ANGRY] = 5;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][BORED] = 0;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][DISGUSTED] = 5;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][SURPRISED] = 0;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][HORNY] = 0;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][ANTISOCIAL] = 0;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][DYING] = 0;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][DEAD] = 0;
-  ExternalStateMap3D[DISGUSTED][HUNGRY][HUNGRY] = 10;
-
   ExternalStateMap3D[DISGUSTED][ANTISOCIAL][HAPPY] = 0;
   ExternalStateMap3D[DISGUSTED][ANTISOCIAL][SAD] = 0;
   ExternalStateMap3D[DISGUSTED][ANTISOCIAL][ANGRY] = 5;
@@ -812,7 +799,7 @@ void setupStates()
 
   //SURPRISED
 
-  ExternalStateMap3D[SURPRISED][HAPPY][HAPPY] = 10;
+  ExternalStateMap3D[SURPRISED][HAPPY][HAPPY] = 0;
   ExternalStateMap3D[SURPRISED][HAPPY][SAD] = 0;
   ExternalStateMap3D[SURPRISED][HAPPY][ANGRY] = 0;
   ExternalStateMap3D[SURPRISED][HAPPY][BORED] = 0;

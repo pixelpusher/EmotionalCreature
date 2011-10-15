@@ -30,9 +30,9 @@
 
 float InternalStateMap[][] = {
   /*HAPPY*/
- { 0.8/*HAPPY*/, 0.0/*SAD*/,
-  0.05/*ANGRY*/, 0.05/*BORED*/, 0.05/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0/*DYING*/, 0.0/*DEAD*/ },
+ { 0.5/*HAPPY*/, 0.0/*SAD*/,
+  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
+  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },
 
   /*SAD*/
  { 0.5/*HAPPY*/, 0.0/*SAD*/,
@@ -45,8 +45,8 @@ float InternalStateMap[][] = {
   0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
  /*BORED*/
- { 0.2/*HAPPY*/, 0.0/*SAD*/,
-  0.05/*ANGRY*/, 0.6/*BORED*/, 0.05/*DISGUST*/, 0.0/*SURPRISE*/,
+ { 0.5/*HAPPY*/, 0.0/*SAD*/,
+  0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
   0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
   /*DISGUST*/
@@ -60,9 +60,9 @@ float InternalStateMap[][] = {
   0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
   /*HUNGRY*/
- { 0/*HAPPY*/, 0.0/*SAD*/,
+ { 0.5/*HAPPY*/, 0.0/*SAD*/,
   0.2/*ANGRY*/, 0.1/*BORED*/, 0.1/*DISGUST*/, 0.0/*SURPRISE*/,
-  0.5/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
+  0.0/*HUNGRY*/, 0.0/*HORNY*/, 0.05/*ANTISOC*/, 0.05/*DYING*/, 0.0/*DEAD*/ },  
 
  /*HORNY*/
  { 0.5/*HAPPY*/, 0.0/*SAD*/,
